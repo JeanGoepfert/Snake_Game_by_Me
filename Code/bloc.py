@@ -5,11 +5,11 @@ package_root_directory = file.parents[1]
 sys.path.append(str(package_root_directory))
 
 import pygame
-from Constants.Colors import *
+from Code.Constants.Colors import *
+from Code.Constants.Dimensions import *
 
 
 
-BLOCK_SIDE = 16
 
 class Block(pygame.sprite.Sprite):
     def __init__(self,i,j,color):
