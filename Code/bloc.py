@@ -13,25 +13,28 @@ from Code.Constants.Dimensions import *
 
 
 class Block(pygame.sprite.Sprite):
-    def __init__(self,i,j,direction, color = WHITE):
+    def __init__(self,WINDOW,i,j,direction, color = WHITE):
         super().__init__()
-        self.coordinates = [i,j]
+        self.coordinates = (i,j)
         self.color = color
         self.rect = pygame.Rect(i*BLOCK_SIDE,j*BLOCK_SIDE,BLOCK_SIDE,BLOCK_SIDE)
+        
 
         self.direction = direction #string 
+
+        self.WINDOW = WINDOW
     
     def move_right(self) : 
-        self.coordinates[0] += 1
+        self.coordinates = (self.coordinates[0] + 1,self.coordinates[1])
         self.rect.x +=BLOCK_SIDE
     def move_left(self) : 
-        self.coordinates[0] -= 1
+        self.coordinates = (self.coordinates[0] - 1,self.coordinates[1])
         self.rect.x -=BLOCK_SIDE
     def move_down(self) : 
-        self.coordinates[1] +=1
+        self.coordinates = (self.coordinates[0] ,self.coordinates[1] + 1)
         self.rect.y +=BLOCK_SIDE
     def move_up(self) : 
-        self.coordinates[1] -= 1
+        self.coordinates = (self.coordinates[0] ,self.coordinates[1] - 1)
         self.rect.y -=BLOCK_SIDE
     
     def move(self):
@@ -56,6 +59,9 @@ class Block(pygame.sprite.Sprite):
 
         if self.direction != opposite_direction[new_direction]:
             self.direction = new_direction
+    
+    def draw(self):
+        pygame.draw.rect(self.WINDOW,self.color, self.rect)
 
     
 
