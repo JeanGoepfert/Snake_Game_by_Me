@@ -19,18 +19,22 @@ class Game:
 
 
         #Création d'un bloc 
-        self.block = Block(0,0,RED)
+        self.block = Block(0,0,'right',RED)
     
     def handle_input(self,event):
+        key_to_direction = {pygame.K_RIGHT : 'right', pygame.K_LEFT : 'left', pygame.K_UP : 'up', pygame.K_DOWN : 'down'} #d'une clé clavier donne une direction en string
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RIGHT:
-                self.block.move_right()
-            if event.key == pygame.K_LEFT:
-                self.block.move_left()
-            if event.key == pygame.K_UP:
-                self.block.move_up()
-            if event.key == pygame.K_DOWN:
-                self.block.move_down()
+            if event.key in key_to_direction.keys():
+                self.block.update_direction(key_to_direction[event.key])
+           
+            # if event.key == pygame.K_RIGHT:
+            #     self.block.move_right()
+            # if event.key == pygame.K_LEFT:
+            #     self.block.move_left()
+            # if event.key == pygame.K_UP:
+            #     self.block.move_up()
+            # if event.key == pygame.K_DOWN:
+            #     self.block.move_down()
     
     def draw_window(self):
 
@@ -49,8 +53,10 @@ class Game:
         pygame.display.update()
 
     def run(self):
+        clock = pygame.time.Clock()
         running = True
         while running:
+            clock.tick(FPS)
             for event in pygame.event.get():
 
                 if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
@@ -58,6 +64,7 @@ class Game:
                 self.handle_input(event)
 
 
+            self.block.move()
             self.draw_window()
         pygame.quit()
 
