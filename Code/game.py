@@ -43,9 +43,13 @@ class Game:
                 self.mouvement_allowed = False
             if event.key == pygame.K_SPACE:
                 self.snake.add_block()
+            
+            if event.key == pygame.K_p:
+                game.pause(10000)
 
            
-
+    def pause(self,time):
+        pygame.time.delay(time)
     
     def draw_window(self):
 
