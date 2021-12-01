@@ -37,7 +37,7 @@ class Snake:
         elif self.queue.direction == 'left':
             self.queue = Block(self.WINDOW,self.queue.coordinates[0]+1,self.queue.coordinates[1],self.queue.direction)
         elif self.queue.direction == 'up':
-            self.queue = Block(self.WINDOW,self.queue.coordinates[0]-1,self.queue.coordinates[1]+1,self.queue.direction)
+            self.queue = Block(self.WINDOW,self.queue.coordinates[0],self.queue.coordinates[1]+1,self.queue.direction)
         else:
             self.queue = Block(self.WINDOW,self.queue.coordinates[0],self.queue.coordinates[1]-1,self.queue.direction)
         self.body.append(self.queue)
