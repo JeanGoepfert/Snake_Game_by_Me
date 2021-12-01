@@ -62,6 +62,12 @@ class Block(pygame.sprite.Sprite):
     
     def draw(self):
         pygame.draw.rect(self.WINDOW,self.color, self.rect)
+        border = pygame.Rect(self.rect.x+1,
+        self.rect.y+1,
+        self.rect.width-2,
+        self.rect.height-2
+        )
+        pygame.draw.rect(self.WINDOW,BLACK, border,1)
 
     
 

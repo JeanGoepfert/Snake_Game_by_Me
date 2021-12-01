@@ -65,3 +65,7 @@ class Snake:
                 if bloc == self.queue:
                     self.remove_corner(bloc.coordinates)
     
+
+    def draw(self):
+        for block in self.body:
+            block.draw()

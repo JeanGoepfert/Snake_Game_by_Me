@@ -58,8 +58,7 @@ class Game:
             pygame.draw.line(self.WINDOW,GRIS,(0,i*BLOCK_SIDE-1),(WINDOW_WIDTH,i*BLOCK_SIDE-1),2)
 
         #dessin du serpent
-        for block in self.snake.body:     
-            block.draw()
+        self.snake.draw()
         
         #mise à jour de la fenêtre dès qu'on a tout dessiné
         pygame.display.update()
