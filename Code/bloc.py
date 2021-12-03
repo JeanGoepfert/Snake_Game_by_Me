@@ -6,6 +6,7 @@ package_root_directory = file.parents[1]
 sys.path.append(str(package_root_directory))
 
 import pygame
+pygame.init()
 from Code.Constants.Colors import *
 from Code.Constants.Dimensions import *
 

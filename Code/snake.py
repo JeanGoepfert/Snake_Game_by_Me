@@ -96,4 +96,7 @@ class Snake:
 
 
     def eat_apple(self,apple):
-        pass
+        if self.head.rect.colliderect(apple.rect):
+            self.add_body_block()
+            return True
+        return False

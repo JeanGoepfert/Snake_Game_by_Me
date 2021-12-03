@@ -14,8 +14,8 @@ from Code.Constants.Dimensions import *
 
 class Apple(Block):
 
-    def __init__(self, WINDOW, i, j, color=GREEN):
-        super().__init__(WINDOW, i, j, color=color)
+    def __init__(self, SURFACE, i, j, color=GREEN):
+        super().__init__(SURFACE, i, j, color)
 
         
     

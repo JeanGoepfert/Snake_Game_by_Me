@@ -4,11 +4,17 @@ file = Path(__file__).resolve()
 package_root_directory = file.parents[1]
 sys.path.append(str(package_root_directory))
 
+
 import pygame
+pygame.init()
+
+import random
+
 from Code.Constants.Colors import *
 from Code.Constants.Dimensions import *
 
 from Code.snake import Snake
+from Code.apple import Apple
 
 
 class Game:
@@ -24,10 +30,13 @@ class Game:
         #création d'un serpent
         self.snake = Snake(self.WINDOW)
 
+        #générer une pomme
+        self.apple = self.new_apple()
         #booléen qui gère la fin de partie
         self.end = False
         
         self.score = 0
+
     
     def handle_input(self,event):
         key_to_direction = {    #d'une clé clavier donne une direction en string
@@ -57,6 +66,14 @@ class Game:
 
         self.pause(5000)
     
+
+    def new_apple(self):
+        snake_positions = [body_block.coordinates for body_block in self.snake.body]
+        available_positions = [(i,j) for i in range(50) for j in range(40) if (i,j) not in snake_positions]
+
+        i,j = random.choice(available_positions)
+        return Apple(self.WINDOW,i,j)
+            
     def draw_window(self):
 
         #on dessine un fond noir sur notre fenêtre
@@ -66,6 +83,10 @@ class Game:
         for i in range(50):
             pygame.draw.line(self.WINDOW,GRIS,(i*BLOCK_SIDE - 1,0),(i*BLOCK_SIDE - 1,WINDOW_HEIGHT),2)
             pygame.draw.line(self.WINDOW,GRIS,(0,i*BLOCK_SIDE-1),(WINDOW_WIDTH,i*BLOCK_SIDE-1),2)
+
+
+        #dessin de la pomme
+        self.apple.draw()
 
         #dessin du serpent
         self.snake.draw()
@@ -95,6 +116,9 @@ class Game:
             self.end = self.snake.check_collision()
             if self.end:
                 self.snake.move_back()
+            
+            if self.snake.eat_apple(self.apple):
+                self.apple = self.new_apple()
 
             self.draw_window()
 
