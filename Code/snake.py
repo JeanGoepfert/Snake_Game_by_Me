@@ -57,6 +57,18 @@ class Snake:
     def remove_corner(self,coordinates):
         del self.corners[coordinates]
     
+    def check_collision(self):
+        #vérification que le serpent reste dans le carré de la fenêtre
+        if not self.head.rect.colliderect(self.WINDOW.get_rect()):
+            return True
+
+        #vérification que le serpent ne touche pas son corps
+        if len(self.head.rect.collidelistall(self.body)) > 1:
+            return True
+        
+        return False
+        
+    
     def move(self):
         for bloc in self.body:
             bloc.move()
@@ -64,8 +76,12 @@ class Snake:
                 bloc.update_direction(self.corners[bloc.coordinates])
                 if bloc == self.queue:
                     self.remove_corner(bloc.coordinates)
+        
+    def move_back(self):
+        for bloc in self.body:
+            bloc.move_back()
     
 
     def draw(self):
-        for block in self.body:
+        for block in reversed(self.body):
             block.draw()

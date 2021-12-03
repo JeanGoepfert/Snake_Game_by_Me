@@ -21,6 +21,7 @@ class Block(pygame.sprite.Sprite):
         
 
         self.direction = direction #string 
+        self.old_direction = self.direction
 
         self.WINDOW = WINDOW
     
@@ -38,6 +39,8 @@ class Block(pygame.sprite.Sprite):
         self.rect.y -=BLOCK_SIDE
     
     def move(self):
+        self.old_direction = self.direction
+
         if self.direction == 'up':
             self.move_up()
         elif self.direction == 'down':
@@ -48,6 +51,19 @@ class Block(pygame.sprite.Sprite):
             self.move_left()
         else:
             raise ValueError("The direction wasn't in : up, down, right, left")
+        
+    def move_back(self):
+        self.direction = self.old_direction
+
+        if self.direction == 'down':
+            self.move_up()
+        elif self.direction == 'up':
+            self.move_down()
+        elif self.direction == 'left':
+            self.move_right()
+        elif self.direction == 'right':
+            self.move_left()
+
     
     def update_direction(self, new_direction):
         opposite_direction = {

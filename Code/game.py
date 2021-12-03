@@ -25,6 +25,8 @@ class Game:
 
         #création d'un serpent
         self.snake = Snake(self.WINDOW)
+
+        self.end = False
         
     
     def handle_input(self,event):
@@ -50,6 +52,10 @@ class Game:
            
     def pause(self,time):
         pygame.time.delay(time)
+    
+    def end_game(self):
+
+        self.pause(5000)
     
     def draw_window(self):
 
@@ -85,12 +91,17 @@ class Game:
                 self.handle_input(event)
             
             self.snake.move()
+
+            self.end = self.snake.check_collision()
+            if self.end:
+                self.snake.move_back()
+
             self.draw_window()
 
             
             
         pygame.quit()
-
+        
 
 if __name__ == "__main__":
     game = Game()
