@@ -7,7 +7,7 @@ sys.path.append(str(package_root_directory))
 import pygame
 from Code.Constants.Colors import *
 from Code.Constants.Dimensions import *
-from Code.bloc import Block
+
 from Code.snake import Snake
 
 
@@ -20,12 +20,14 @@ class Game:
 
         self.mouvement_allowed = True
 
-        #Création d'un bloc 
-        self.block = Block(self.WINDOW,0,0,'right',RED)
 
         #création d'un serpent
         self.snake = Snake(self.WINDOW)
+
+        #booléen qui gère la fin de partie
+        self.end = False
         
+        self.score = 0
     
     def handle_input(self,event):
         key_to_direction = {    #d'une clé clavier donne une direction en string
@@ -42,10 +44,18 @@ class Game:
                 self.snake.add_corner((self.snake.head.coordinates),new_direction)
                 self.mouvement_allowed = False
             if event.key == pygame.K_SPACE:
-                self.snake.add_block()
+                self.snake.add_body_block()
+            
+            if event.key == pygame.K_p:
+                game.pause(10000)
 
            
+    def pause(self,time):
+        pygame.time.delay(time)
+    
+    def end_game(self):
 
+        self.pause(5000)
     
     def draw_window(self):
 
@@ -58,8 +68,7 @@ class Game:
             pygame.draw.line(self.WINDOW,GRIS,(0,i*BLOCK_SIDE-1),(WINDOW_WIDTH,i*BLOCK_SIDE-1),2)
 
         #dessin du serpent
-        for block in self.snake.body:     
-            block.draw()
+        self.snake.draw()
         
         #mise à jour de la fenêtre dès qu'on a tout dessiné
         pygame.display.update()
@@ -82,12 +91,17 @@ class Game:
                 self.handle_input(event)
             
             self.snake.move()
+
+            self.end = self.snake.check_collision()
+            if self.end:
+                self.snake.move_back()
+
             self.draw_window()
 
             
             
         pygame.quit()
-
+        
 
 if __name__ == "__main__":
     game = Game()
