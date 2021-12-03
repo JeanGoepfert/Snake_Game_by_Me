@@ -26,9 +26,15 @@ class Snake:
         self.body.append(self.head)
         self.queue = self.head
 
+        for _ in range(4):
+            self.add_block()
+        
+
+
         self.direction = self.head.direction
         self.corners = {} #key : (i,j) #value : 'right', 'left', 'up', 'down' --> stores the points where the snake changes its direction
 
+        
 
         
     def add_block(self):
