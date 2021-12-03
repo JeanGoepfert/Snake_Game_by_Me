@@ -7,7 +7,7 @@ sys.path.append(str(package_root_directory))
 import pygame
 from Code.Constants.Colors import *
 from Code.Constants.Dimensions import *
-from Code.bloc import Block
+
 from Code.snake import Snake
 
 
@@ -20,14 +20,14 @@ class Game:
 
         self.mouvement_allowed = True
 
-        #Création d'un bloc 
-        self.block = Block(self.WINDOW,0,0,'right',RED)
 
         #création d'un serpent
         self.snake = Snake(self.WINDOW)
 
+        #booléen qui gère la fin de partie
         self.end = False
         
+        self.score = 0
     
     def handle_input(self,event):
         key_to_direction = {    #d'une clé clavier donne une direction en string
@@ -44,7 +44,7 @@ class Game:
                 self.snake.add_corner((self.snake.head.coordinates),new_direction)
                 self.mouvement_allowed = False
             if event.key == pygame.K_SPACE:
-                self.snake.add_block()
+                self.snake.add_body_block()
             
             if event.key == pygame.K_p:
                 game.pause(10000)
