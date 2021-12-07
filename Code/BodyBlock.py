@@ -13,8 +13,8 @@ from Code.bloc import Block
 
 
 class BodyBlock(Block):
-    def __init__(self,SURFACE,i,j,direction, color = WHITE):
-        super().__init__(SURFACE,i,j, color)
+    def __init__(self,i,j,direction, color = WHITE):
+        super().__init__(i,j, color)
 
         self.direction = direction #string 
         self.old_direction = self.direction

@@ -24,11 +24,14 @@ class Game:
         self.WINDOW = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption("Snake Game v1")
 
+        #Création de la surface de jeu
+        self.GAME_SURFACE = pygame.Surface((SNAKE_AREA_X,SNAKE_AREA_Y))
+
         self.mouvement_allowed = True
 
 
         #création d'un serpent
-        self.snake = Snake(self.WINDOW)
+        self.snake = Snake(self.GAME_SURFACE)
 
         #générer une pomme
         self.apple = self.new_apple()
@@ -69,29 +72,31 @@ class Game:
 
     def new_apple(self):
         snake_positions = [body_block.coordinates for body_block in self.snake.body]
-        available_positions = [(i,j) for i in range(50) for j in range(40) if (i,j) not in snake_positions]
+        available_positions = [(i,j) for i in range(NB_BLOCKS_X) for j in range(NB_BLOCKS_Y) if (i,j) not in snake_positions]
 
         i,j = random.choice(available_positions)
-        return Apple(self.WINDOW,i,j)
+        return Apple(i,j)
             
     def draw_window(self):
 
         #on dessine un fond noir sur notre fenêtre
-        self.WINDOW.fill(BLACK)
+        self.GAME_SURFACE.fill(BLACK)
 
         #on dessine les petites barres permettant de visualiser le découpage de la fenêtre en petits carrés
-        for i in range(50):
-            pygame.draw.line(self.WINDOW,GRIS,(i*BLOCK_SIDE - 1,0),(i*BLOCK_SIDE - 1,WINDOW_HEIGHT),2)
-            pygame.draw.line(self.WINDOW,GRIS,(0,i*BLOCK_SIDE-1),(WINDOW_WIDTH,i*BLOCK_SIDE-1),2)
+        for i in range(NB_BLOCKS_X+1):
+            pygame.draw.line(self.GAME_SURFACE,GRIS,(i*BLOCK_SIDE - 1,0),(i*BLOCK_SIDE - 1,WINDOW_HEIGHT),2)
+        for j in range(NB_BLOCKS_Y+1):
+            pygame.draw.line(self.GAME_SURFACE,GRIS,(0,j*BLOCK_SIDE-1),(WINDOW_WIDTH,j*BLOCK_SIDE-1),2)
 
 
         #dessin de la pomme
-        self.apple.draw()
+        self.apple.draw(self.GAME_SURFACE)
 
         #dessin du serpent
         self.snake.draw()
         
         #mise à jour de la fenêtre dès qu'on a tout dessiné
+        self.WINDOW.blit(self.GAME_SURFACE,(5*BLOCK_SIDE,5*BLOCK_SIDE))
         pygame.display.update()
 
 

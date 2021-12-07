@@ -19,10 +19,10 @@ class Snake:
 
     def __init__(self,SURFACE) :
         self.SURFACE = SURFACE
-        
+
         self.body = []
 
-        self.head = BodyBlock(self.SURFACE,0,0,'right', RED)
+        self.head = BodyBlock(0,0,'right', RED)
         self.body.append(self.head)
         self.queue = self.head
 
@@ -39,13 +39,13 @@ class Snake:
         
     def add_body_block(self):
         if self.queue.direction == 'right':
-            self.queue = BodyBlock(self.SURFACE,self.queue.coordinates[0]-1,self.queue.coordinates[1],self.queue.direction)
+            self.queue = BodyBlock(self.queue.coordinates[0]-1,self.queue.coordinates[1],self.queue.direction)
         elif self.queue.direction == 'left':
-            self.queue = BodyBlock(self.SURFACE,self.queue.coordinates[0]+1,self.queue.coordinates[1],self.queue.direction)
+            self.queue = BodyBlock(self.queue.coordinates[0]+1,self.queue.coordinates[1],self.queue.direction)
         elif self.queue.direction == 'up':
-            self.queue = BodyBlock(self.SURFACE,self.queue.coordinates[0],self.queue.coordinates[1]+1,self.queue.direction)
+            self.queue = BodyBlock(self.queue.coordinates[0],self.queue.coordinates[1]+1,self.queue.direction)
         else:
-            self.queue = BodyBlock(self.SURFACE,self.queue.coordinates[0],self.queue.coordinates[1]-1,self.queue.direction)
+            self.queue = BodyBlock(self.queue.coordinates[0],self.queue.coordinates[1]-1,self.queue.direction)
         self.body.append(self.queue)
 
         
@@ -92,7 +92,7 @@ class Snake:
 
     def draw(self):
         for body_block in reversed(self.body):
-            body_block.draw()
+            body_block.draw(self.SURFACE)
 
 
     def eat_apple(self,apple):
