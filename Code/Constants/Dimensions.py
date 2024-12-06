@@ -18,5 +18,5 @@ WINDOW_WIDTH, WINDOW_HEIGHT = BLOCK_SIDE*50,BLOCK_SIDE*40
 
 
 #Speed of the clock
-FPS = 8
+FPS = 12
 

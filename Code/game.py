@@ -1,5 +1,6 @@
 import sys
 from pathlib import Path
+from turtle import window_height
 file = Path(__file__).resolve()
 package_root_directory = file.parents[1]
 sys.path.append(str(package_root_directory))
@@ -12,6 +13,7 @@ import random
 
 from Code.Constants.Colors import *
 from Code.Constants.Dimensions import *
+from Code.Constants.fonts import *
 
 from Code.snake import Snake
 from Code.apple import Apple
@@ -38,6 +40,7 @@ class Game:
         #booléen qui gère la fin de partie
         self.end = False
         
+        #Gestion du score
         self.score = 0
 
     
@@ -67,7 +70,7 @@ class Game:
     
     def end_game(self):
 
-        self.pause(5000)
+        pass
     
 
     def new_apple(self):
@@ -83,6 +86,9 @@ class Game:
         self.GAME_SURFACE.fill(BLACK)
 
         #on dessine les petites barres permettant de visualiser le découpage de la fenêtre en petits carrés
+        pygame.draw.line(self.GAME_SURFACE, GRIS,(0,0),(0,WINDOW_HEIGHT),1)
+        pygame.draw.line(self.GAME_SURFACE, GRIS,(0,0),(WINDOW_WIDTH,0),1)
+
         for i in range(NB_BLOCKS_X+1):
             pygame.draw.line(self.GAME_SURFACE,GRIS,(i*BLOCK_SIDE - 1,0),(i*BLOCK_SIDE - 1,WINDOW_HEIGHT),2)
         for j in range(NB_BLOCKS_Y+1):
@@ -97,6 +103,16 @@ class Game:
         
         #mise à jour de la fenêtre dès qu'on a tout dessiné
         self.WINDOW.blit(self.GAME_SURFACE,(5*BLOCK_SIDE,5*BLOCK_SIDE))
+
+        #affichage du score debbugage à faire
+        score_text = SCORE_FONT.render("Score : {}".format(self.score),1,WHITE)
+
+        self.WINDOW.blit(score_text,(400,300))
+
+        #affichage de la fin de partie
+        if self.end:
+            end_text = END_GAME_FONT.render("GAME OVER !",1,RED)
+            self.WINDOW.blit(end_text,(200,200))
         pygame.display.update()
 
 
@@ -118,12 +134,13 @@ class Game:
             
             self.snake.move()
 
-            self.end = self.snake.check_collision()
+            self.end = not (not self.snake.check_collision() and not self.end)
             if self.end:
                 self.snake.move_back()
             
             if self.snake.eat_apple(self.apple):
                 self.apple = self.new_apple()
+                self.score +=1
 
             self.draw_window()
 
